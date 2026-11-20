@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#110d14">
   <meta name="description" content="Hospede seu servidor de Minecraft, FiveM, Rust e outros jogos. Escolha um plano e jogue com seus amigos.">
-  <title>Vortex Host — Hospedagem para jogos</title>
+  <title>2Players Host — Hospedagem para jogos</title>
   <style>
     :root {
       color-scheme: dark;
@@ -72,15 +72,7 @@
     }
     .nav { display: flex; min-height: 74px; align-items: center; justify-content: space-between; gap: 28px; }
     .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 1.02rem; font-weight: 800; letter-spacing: .045em; }
-    .brand-mark {
-      display: grid;
-      width: 35px;
-      height: 35px;
-      place-items: center;
-      border-radius: 9px;
-      background: var(--gradient);
-    }
-    .brand-mark svg { width: 20px; height: 20px; }
+    .brand-mark { display: block; width: 52px; height: 36px; flex: 0 0 auto; object-fit: contain; }
     .nav-links { display: flex; align-items: center; gap: 32px; }
     .nav-links > a:not(.button) { color: #c4bdcb; font-size: .88rem; transition: color .2s ease; }
     .nav-links > a:not(.button):hover { color: white; }
@@ -151,11 +143,11 @@
 
     /* Games */
     .games-section { padding: 92px 0; }
-    .games-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0 25px; }
+    .games-grid { display: grid; grid-template-columns: repeat(4, 1fr); align-items: start; gap: 18px; }
     .game-card {
       display: flex;
       min-width: 0;
-      min-height: 90px;
+      min-height: 100px;
       align-items: center;
       gap: 12px;
       padding: 15px 3px;
@@ -167,6 +159,66 @@
     }
     .game-card:hover { color: #e6a1cb; }
     .game-card > span:not(.game-mark) { min-width: 0; }
+    .game-art { width: 64px; height: 64px; flex: 0 0 64px; border: 1px solid var(--line); border-radius: 8px; object-fit: cover; }
+    .game-card--image {
+      position: relative;
+      min-height: 220px;
+      align-items: flex-end;
+      padding: 18px;
+      overflow: hidden;
+      isolation: isolate;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: #211a27;
+      color: white;
+      aspect-ratio: 4 / 3;
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    .game-card--image::after {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(12,8,15,.08) 25%, rgba(12,8,15,.88) 100%);
+      content: "";
+    }
+    .game-card--image:hover,
+    .game-card--image:focus-visible {
+      transform: translateY(-5px);
+      border-color: rgba(213,132,185,.65);
+      box-shadow: 0 14px 32px rgba(0,0,0,.32);
+      color: white;
+    }
+    .game-card--image .game-art {
+      position: absolute;
+      z-index: -2;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 0;
+      transition: transform .45s ease;
+    }
+    .game-card--image:hover .game-art,
+    .game-card--image:focus-visible .game-art { transform: scale(1.07); }
+    .game-card--image > span:not(.game-mark) { position: relative; }
+    .game-card--image strong { font-size: 1rem; }
+    .game-card--image small { color: rgba(255,255,255,.78); font-size: .75rem; }
+    .game-card--image .arrow {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 32px;
+      height: 32px;
+      margin: 0;
+      padding: 8px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 50%;
+      background: rgba(15,10,18,.4);
+      color: white;
+      transition: transform .25s ease, background .25s ease;
+    }
+    .game-card--image:hover .arrow,
+    .game-card--image:focus-visible .arrow { transform: translateX(3px); background: rgba(15,10,18,.72); }
     .game-mark { width: 40px; flex: 0 0 auto; color: #d584b9; font-family: ui-monospace, Consolas, monospace; font-size: .73rem; font-weight: 650; letter-spacing: -.05em; }
     .game-card strong { display: block; font-size: .86rem; }
     .game-card small { display: block; margin-top: 2px; color: var(--muted); font-size: .7rem; }
@@ -351,6 +403,7 @@
       .hero-proof { display: flex; flex-wrap: wrap; }
       .games-grid { gap: 0 15px; }
       .game-card { min-height: 82px; gap: 8px; padding: 12px 0; }
+      .game-art { width: 44px; height: 44px; flex-basis: 44px; }
       .game-mark { width: 31px; font-size: .65rem; }
       .game-card strong { font-size: .78rem; }
       .game-card small { font-size: .65rem; }
@@ -366,11 +419,9 @@
 <body>
   <header class="header">
     <nav class="nav container" aria-label="Navegação principal">
-      <a class="brand" href="#inicio" aria-label="Vortex Host, início">
-        <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M3.5 5h5.1L12 14.2 15.4 5h5.1L12 21 3.5 5Z" fill="white"/></svg>
-        </span>
-        VORTEX HOST
+      <a class="brand" href="#inicio" aria-label="2Players Host, início">
+        <img class="brand-mark" src="images/2players-logo.png" alt="">
+        2PLAYERS HOST
       </a>
       <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -434,12 +485,12 @@
           <p>Escolha um jogo para ver as opções de hospedagem.</p>
         </div>
         <div class="games-grid">
-          <a class="game-card" href="#planos" aria-label="Ver planos para Minecraft">
-            <span class="game-mark" aria-hidden="true">MC</span><span><strong>Minecraft</strong><small>Java e Bedrock</small></span>
+          <a class="game-card game-card--image" href="#planos" aria-label="Ver planos para Minecraft">
+            <img class="game-art" src="images/minecraft.png" alt="" aria-hidden="true"><span><strong>Minecraft</strong><small>Java e Bedrock</small></span>
             <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
           </a>
-          <a class="game-card" href="#planos" aria-label="Ver planos para FiveM">
-            <span class="game-mark" aria-hidden="true">FM</span><span><strong>FiveM</strong><small>Roleplay</small></span>
+          <a class="game-card game-card--image" href="#planos" aria-label="Ver planos para FiveM">
+            <img class="game-art" src="images/fivem.jpg" alt="" aria-hidden="true"><span><strong>FiveM</strong><small>Roleplay</small></span>
             <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
           </a>
           <a class="game-card" href="#planos" aria-label="Ver planos para Rust">
@@ -458,8 +509,12 @@
             <span class="game-mark" aria-hidden="true">VH</span><span><strong>Valheim</strong><small>Sobrevivência</small></span>
             <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
           </a>
-          <a class="game-card" href="#planos" aria-label="Ver planos para Terraria">
-            <span class="game-mark" aria-hidden="true">TR</span><span><strong>Terraria</strong><small>Sandbox</small></span>
+          <a class="game-card game-card--image" href="#planos" aria-label="Ver planos para Terraria">
+            <img class="game-art" src="images/terraria.png" alt="" aria-hidden="true"><span><strong>Terraria</strong><small>Sandbox</small></span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+          </a>
+          <a class="game-card game-card--image" href="#planos" aria-label="Ver opções para World of Warcraft">
+            <img class="game-art" src="images/wow.png" alt="" aria-hidden="true"><span><strong>World of Warcraft</strong><small>MMORPG</small></span>
             <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
           </a>
           <a class="game-card" href="#planos" aria-label="Ver opções para outros jogos">
@@ -601,8 +656,8 @@
       <div class="footer-main">
         <div class="footer-brand">
           <a class="brand" href="#inicio">
-            <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3.5 5h5.1L12 14.2 15.4 5h5.1L12 21 3.5 5Z" fill="white"/></svg></span>
-            VORTEX HOST
+            <img class="brand-mark" src="images/2players-logo.png" alt="">
+            2PLAYERS HOST
           </a>
           <p>Hospedagem de jogos para você montar um servidor e chamar os amigos.</p>
         </div>
@@ -611,8 +666,8 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© <span id="current-year">2026</span> Vortex Host. Todos os direitos reservados.</span>
-        <span>Vortex Host · Hospedagem de jogos</span>
+        <span>© <span id="current-year">2026</span> 2Players Host. Todos os direitos reservados.</span>
+        <span>2Players Host · Hospedagem de jogos</span>
       </div>
     </div>
   </footer>
@@ -629,7 +684,7 @@
           <label for="game-choice">Qual jogo você quer hospedar?</label>
           <select id="game-choice" name="game" required>
             <option value="">Selecione seu jogo</option>
-            <option>Minecraft</option><option>FiveM</option><option>Rust</option><option>Counter-Strike 2</option><option>Palworld</option><option>Valheim</option><option>Terraria</option><option>Outro jogo</option>
+            <option>Minecraft</option><option>FiveM</option><option>Rust</option><option>Counter-Strike 2</option><option>Palworld</option><option>Valheim</option><option>Terraria</option><option>World of Warcraft</option><option>Outro jogo</option>
           </select>
         </div>
         <div class="field">
